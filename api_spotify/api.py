@@ -48,7 +48,8 @@ class API:
 
 		json_data = req_post(
 			api_access_token_endpoint,
-			data = params
+			data = params,
+			timeout = 30
 		).json()
 
 		self.token = Token.model_validate(json_data)
