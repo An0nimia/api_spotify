@@ -39,15 +39,23 @@ class Album_Tracks(BaseModel):
 		return data
 
 
-	def get_next(self) -> Album_Tracks | None:
-		if not self.next:
+	def __get(self, endpoint: str | None) -> Album_Tracks | None:
+		if not endpoint:
 			return
 
-		method = self.next.removeprefix(self.__api.API_URL)
+		method = endpoint.removeprefix(self.__api.API_URL)
 		res = self.__api.make_req(method)
 		res['_api'] = self.__api
 
 		return Album_Tracks.model_validate(res)
+
+
+	def get_next(self) -> Album_Tracks | None:
+		return self.__get(self.next)
+
+
+	def get_previous(self) -> Album_Tracks | None:
+		return self.__get(self.previous)
 
 
 class Album(Short_Album):
@@ -57,11 +65,3 @@ class Album(Short_Album):
 	genres: list[str]
 	label: str
 	popularity: int
-
-
-	@model_validator(mode = 'before')
-	@classmethod
-	def check(cls, data: dict[str, Any]) -> dict[str, Any]:
-		data['tracks']['_api'] = data['_api']
-
-		return data

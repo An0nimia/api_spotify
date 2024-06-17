@@ -1,3 +1,5 @@
+from pprint import pp
+
 from unittest import TestCase
 
 from api_spotify import API
@@ -17,7 +19,7 @@ class Test_Types_Serialization(TestCase):
 
 
 	def test_get_track(self):
-		print(self.__API.get_track('11dFghVXANMlKmJXsNCbNl'))
+		assert self.__API.get_track('11dFghVXANMlKmJXsNCbNl').external_ids.isrc == 'USUM71703861'
 
 
 	def test_get_album(self):
@@ -27,6 +29,7 @@ class Test_Types_Serialization(TestCase):
 
 	def test_get_album2(self):
 		res = self.__API.get_album('7ySJCA3nVG00JT35rOiCNT')
+		print(res.external_ids.upc, 'ciao')
 
 		for track in res.tracks.items:
 			print(track.name)
@@ -42,6 +45,13 @@ class Test_Types_Serialization(TestCase):
 		print(res.genres, res.tracks.items[0].duration)
 
 
+	def test_get_next_and_prev(self):
+		res = self.__API.get_album('7ySJCA3nVG00JT35rOiCNT')
+		print(res.tracks.next, res.tracks.previous)
+		n = res.tracks.get_next()
+		print(n.get_previous().get_previous(), 'ciao')
+
+
 	def test_get_album_tracks(self):
 		res = self.__API.get_album_tracks('7ySJCA3nVG00JT35rOiCNT')
 
@@ -54,3 +64,9 @@ class Test_Types_Serialization(TestCase):
 
 		for track in res.albums.items:
 			print(track.name)
+
+
+	def test_get_playlist(self):
+		res = self.__API.get_playlist('37i9dQZF1DZ06evO4gTUOY')
+
+		pp(res)

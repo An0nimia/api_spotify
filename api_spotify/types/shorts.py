@@ -7,6 +7,7 @@ from pydantic import (
 )
 
 from .image import Image
+from .followers import Followers
 from .linked_from import Linked_From
 from .restrictions import Restrictions
 from .external_urls import External_Urls
@@ -16,6 +17,15 @@ type ALBUM_TYPES = (
 	Literal['album'] | Literal['single'] |
 	Literal['compilation'] | Literal['ep']
 )
+
+
+class Short_User(BaseModel):
+	external_urls: External_Urls
+	followers: Followers | None = None
+	href: str
+	id: str
+	type: Literal['user']
+	uri: str
 
 
 class Short_Artist(BaseModel):
