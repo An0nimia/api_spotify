@@ -3,6 +3,7 @@ from pprint import pp
 from unittest import TestCase
 
 from api_spotify import API
+from api_spotify.utils import magic_link
 
 
 class Test_Types_Serialization(TestCase):
@@ -47,9 +48,9 @@ class Test_Types_Serialization(TestCase):
 
 	def test_get_next_and_prev(self):
 		res = self.__API.get_album('7ySJCA3nVG00JT35rOiCNT')
-		print(res.tracks.next, res.tracks.previous)
 		n = res.tracks.get_next()
-		print(n.get_previous().get_previous(), 'ciao')
+
+		assert res.tracks == n.get_previous()
 
 
 	def test_get_album_tracks(self):
@@ -69,4 +70,12 @@ class Test_Types_Serialization(TestCase):
 	def test_get_playlist(self):
 		res = self.__API.get_playlist('37i9dQZF1DZ06evO4gTUOY')
 
-		pp(res)
+		assert res.id == '37i9dQZF1DZ06evO4gTUOY'
+
+
+	def test_magic_link(self):
+		assert magic_link('https://open.spotify.com/album/7L64BsqhmNImNoCyei2e0x?si=MjB0eb9vSQ6HJv0lXx9HrQ')[1] == '7L64BsqhmNImNoCyei2e0x'
+
+
+	def test_get_artist(self):
+		assert self.__API.get_artist('0TnOYISbd1XYRBk9myaseg').name == 'Pitbull'

@@ -11,7 +11,8 @@ from .decorators import check_login
 
 from .types import (
 	Token, Album, Album_Tracks,
-	New_Releases, Track, Playlist
+	New_Releases, Track,
+	Playlist, Artist
 )
 
 
@@ -123,3 +124,15 @@ class API:
 		res['tracks']['_api'] = self
 
 		return Playlist.model_validate(res)
+
+
+	def get_artist_JSON(self, id_artist: str) -> dict[str, Any]:
+		method = f'artists/{id_artist}'
+
+		return self.make_req(method)
+
+
+	def get_artist(self, id_artist: str) -> Artist:
+		res = self.get_artist_JSON(id_artist)
+
+		return Artist.model_validate(res)
