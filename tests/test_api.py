@@ -1,4 +1,3 @@
-from pprint import pp
 
 from unittest import TestCase
 
@@ -21,6 +20,9 @@ class Test_Types_Serialization(TestCase):
 
 	def test_get_track(self):
 		assert self.__API.get_track('11dFghVXANMlKmJXsNCbNl').external_ids.isrc == 'USUM71703861'
+
+	def test_get_track_w_just_year(self):
+		assert self.__API.get_track('5IzZpz0vA73IIjqFPpXSXP').external_ids.isrc == 'JPPC01301131'
 
 
 	def test_get_album(self):

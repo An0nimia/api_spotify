@@ -72,7 +72,7 @@ class Short_Album(BaseModel):
 	id: str
 	images: list[Image]
 	name: str
-	release_date: date
+	release_date: date | int
 	release_date_precision: Literal['year'] | Literal['month'] | Literal['day']
 	restrictions: Restrictions | None = None
 	type: Literal['album']

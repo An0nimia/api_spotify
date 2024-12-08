@@ -64,6 +64,7 @@ class API:
 
 	def get_track_JSON(self, id_track: str) -> dict[str, Any]:
 		method = f'tracks/{id_track}'
+		self.write_log(self.make_req(method))
 
 		return self.make_req(method)
 
