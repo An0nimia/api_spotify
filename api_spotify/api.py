@@ -19,6 +19,7 @@ from .types import (
 class API:
 	API_URL = 'https://api.spotify.com/v1/'
 	logger = getLogger('API_SPOTIFY')
+	API_ACCESS_TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token' # trunk-ignore(bandit/B105)
 
 
 	def __init__(self, client_id: str, client_secret: str) -> None:
@@ -39,8 +40,6 @@ class API:
 
 
 	def refresh(self) -> None:
-		api_access_token_endpoint = 'https://accounts.spotify.com/api/token'
-
 		params = {
 			'grant_type': 'client_credentials',
 			'client_id': self.__client_id,
@@ -48,7 +47,7 @@ class API:
 		}
 
 		json_data = req_post(
-			api_access_token_endpoint,
+			self.API_ACCESS_TOKEN_ENDPOINT,
 			data = params,
 			timeout = 30
 		).json()

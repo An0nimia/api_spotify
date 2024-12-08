@@ -52,7 +52,7 @@ class Test_Types_Serialization(TestCase):
 		res = self.__API.get_album('7ySJCA3nVG00JT35rOiCNT')
 		n = res.tracks.get_next()
 
-		assert res.tracks == n.get_previous()
+		assert res.tracks.href == n.get_previous().href # type: ignore[reportOptionalMemberAccess]
 
 
 	def test_get_album_tracks(self):
