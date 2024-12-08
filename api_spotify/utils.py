@@ -34,7 +34,10 @@ def magic_link(link: str) -> tuple[Type_Media, str]:
 	else:
 		raise Invalid_Link(link)
 
-	res = req_get(link)
+	res = req_get(
+		link,
+		timeout = 60
+	)
 
 	if res.status_code == 404:
 		raise Invalid_Link(link)
