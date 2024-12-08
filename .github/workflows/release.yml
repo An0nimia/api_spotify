@@ -1,10 +1,11 @@
 name: Publish to PYPI
 
 on:
-    push:
+    workflow_run:
+        workflows: ["Test package"]
+        types: [completed]
         branches:
-            - release
-    workflow_dispatch:
+        - 'releases'
 
 permissions:
     contents: read
