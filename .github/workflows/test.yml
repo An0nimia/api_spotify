@@ -2,10 +2,7 @@ name: Test package
 
 on:
     push:
-        branches:
-            - dev
     pull_request:
-        types: [edited]
     workflow_dispatch:
 
 permissions:
