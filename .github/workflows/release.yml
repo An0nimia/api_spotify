@@ -5,7 +5,7 @@ on:
         workflows: ["Test package"] # trunk-ignore(yamllint/quoted-strings)
         types: [completed]
         branches:
-            - "releases" # trunk-ignore(yamllint/quoted-strings)
+            - "release" # trunk-ignore(yamllint/quoted-strings)
 
 permissions:
     contents: read
