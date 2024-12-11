@@ -1,7 +1,10 @@
 from enum import StrEnum
 
-from urllib.parse import urlparse
 from requests import get as req_get
+
+from urllib.parse import (
+	urlparse, ParseResult
+)
 
 from .exceptions import Invalid_Link
 
@@ -17,7 +20,7 @@ class Type_Media(StrEnum):
 	TRACK = 'track'
 	ALBUM = 'album'
 	PLAYLIST = 'playlist'
-	#ARTIST = 'artist'
+	ARTIST = 'artist'
 
 
 types_media = {
@@ -27,11 +30,10 @@ types_media = {
 
 
 def magic_link(link: str) -> tuple[Type_Media, str]:
-	url_parsed = urlparse(link)
+	right_url: tuple[bool, ParseResult] = is_spotify_url(link, True)  #pyright: ignore [reportAssignmentType]
+	parser = right_url[1]
 
-	if url_parsed.netloc in VALID_DOMAINS:
-		path = url_parsed.path
-	else:
+	if not right_url[0]:
 		raise Invalid_Link(link)
 
 	res = req_get(
@@ -42,8 +44,17 @@ def magic_link(link: str) -> tuple[Type_Media, str]:
 	if res.status_code == 404:
 		raise Invalid_Link(link)
 
-	s_path = path.split('/')
+	s_path = parser.path.split('/')
 	id_media = s_path[-1]
 	type_media = s_path[-2]
 
 	return types_media[type_media], id_media
+
+
+def is_spotify_url(link: str, return_parser: bool = False) -> bool | tuple[bool, ParseResult]:
+	url_parsed = urlparse(link)
+
+	if return_parser:
+		return (url_parsed.netloc in VALID_DOMAINS, url_parsed)
+
+	return (url_parsed.netloc in VALID_DOMAINS)

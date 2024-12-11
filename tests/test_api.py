@@ -8,7 +8,7 @@ from api_spotify.utils import magic_link
 class Test_Types_Serialization(TestCase):
 	__API = API(
 		client_id = 'c6b23f1e91f84b6a9361de16aba0ae17',
-		client_secret = '237e355acaa24636abc79f1a089e6204'
+		client_secret = '237e355acaa24636abc79f1a089e6204' # trunk-ignore(gitleaks/generic-api-key)
 	)
 
 
