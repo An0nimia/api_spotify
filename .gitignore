@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 out.json
+tests/test_api_user.py
