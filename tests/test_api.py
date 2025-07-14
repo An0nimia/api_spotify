@@ -32,20 +32,16 @@ class Test_Types_Serialization(TestCase):
 
 	def test_get_album2(self):
 		res = self.__API.get_album('7ySJCA3nVG00JT35rOiCNT')
-		print(res.external_ids.upc, 'ciao')
-
-		for track in res.tracks.items:
-			print(track.name)
-
-		is_next = res.tracks.get_next()
+		count = 0
+		is_next = res.tracks
 
 		while is_next:
-			for track in is_next.items:
-				print(track.name)
+			for _ in is_next.items:
+				count += 1
 
 			is_next = is_next.get_next()
 
-		print(res.genres, res.tracks.items[0].duration)
+		assert count == res.total_tracks
 
 
 	def test_get_next_and_prev(self):

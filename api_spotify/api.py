@@ -2,8 +2,10 @@ from typing import Any
 
 from logging import getLogger
 
-from requests import Session
-from requests import post as req_post
+from requests import (
+	Session,
+	post as req_post
+)
 
 from json import dump as JSON_dump
 
@@ -46,6 +48,8 @@ class API:
 			'client_secret': self.__client_secret
 		}
 
+		self.logger.debug(f'Before request with params {params}')
+
 		json_data = req_post(
 			self.API_ACCESS_TOKEN_ENDPOINT,
 			data = params,
@@ -54,6 +58,7 @@ class API:
 
 		self.token = Token.model_validate(json_data)
 		self.__session.headers['Authorization'] = f'Bearer {self.token.access_token}'
+		self.logger.debug(f'Response {json_data}')
 
 
 	@check_login

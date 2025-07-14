@@ -13,9 +13,7 @@ from typing import (
 
 if TYPE_CHECKING:
 	from ..api import API
-
-
-__H_1 = 3600
+	from ..api_user import API_USER
 
 
 def check_login(
@@ -27,8 +25,28 @@ def check_login(
 		self.logger.debug('Check if expired')
 		c_time = datetime.now()
 
-		if (c_time - self.token.created_at).seconds >= __H_1:
+		if (c_time - self.token.created_at).seconds >= self.token.expires_in:
 			self.refresh()
+
+		return func(self, *args)
+
+	update_wrapper(inner, func)
+
+	return inner
+
+
+
+def check_refresh_token(
+	func: Callable[
+		..., dict[str, Any] | None
+	]
+):
+	def inner(self: API_USER, *args: ...) -> dict[str, Any] | None:
+		self.logger.debug('Check if expired')
+		c_time = datetime.now()
+
+		if (c_time - self.token_user.created_at).seconds >= self.token_user.expires_in:
+			self.refresh_token()
 
 		return func(self, *args)
 
