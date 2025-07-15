@@ -9,7 +9,7 @@ from requests import (
 
 from json import dump as JSON_dump
 
-from .decorators import check_login
+from .decorators.login import check_login
 
 from .types import (
 	Token, Album, Album_Tracks,
