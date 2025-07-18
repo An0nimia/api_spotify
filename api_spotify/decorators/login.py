@@ -26,6 +26,7 @@ def check_login(
 		c_time = datetime.now()
 
 		if (c_time - self.token.created_at).seconds >= self.token.expires_in:
+			self.logger.debug('Refresh token')
 			self.refresh()
 
 		return func(self, *args)
@@ -42,10 +43,12 @@ def check_refresh_token(
 	]
 ):
 	def inner(self: API_USER, *args: ...) -> dict[str, Any] | None:
-		self.logger.debug('Check if expired')
+		self.logger.debug('Check if user token is expired')
 		c_time = datetime.now()
+		self.logger.debug(f'Current time: {c_time}, token creation time {self.token_user.created_at}, diff {(c_time - self.token_user.created_at).seconds}. Token TTL {self.token_user.expires_in}')
 
 		if (c_time - self.token_user.created_at).seconds >= self.token_user.expires_in:
+			self.logger.debug('Refreshing user token')
 			self.refresh_token()
 
 		return func(self, *args)

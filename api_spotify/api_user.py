@@ -56,15 +56,18 @@ class API_USER(API):
 			timeout = 30
 		).json()
 
+		self.logger.debug(f'Response {json_data}')
+
 		if json_data.get('error') == 'invalid_grant':
 			raise Invalid_Grant(json_data['error_description'])
 
 		if json_data.get('refresh_token') is None and json_data.get('access_token') is not None:
+			self.logger.debug(f'No new refresh token still saving previous one {self.token_user.refresh_token}')
 			json_data['refresh_token'] = self.token_user.refresh_token
 
 		self.token_user = Token_User.model_validate(json_data)
+		self.logger.debug(f'Saved token: {self.token_user}')
 		self.__session.headers['Authorization'] = f'Bearer {self.token_user.access_token}'
-		self.logger.debug(f'Response {json_data}')
 
 
 	@check_refresh_token

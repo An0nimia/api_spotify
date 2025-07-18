@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from pydantic import (
-	BaseModel, computed_field
+	BaseModel, Field
 )
 
 
@@ -12,8 +12,7 @@ class Token_User(BaseModel):
 	expires_in: int
 	refresh_token: str
 
-
-	@computed_field
-	@property
-	def created_at(self) -> datetime:
-		return datetime.now()
+	created_at: datetime = Field(
+		default_factory = datetime.now,
+		frozen = True
+	)
