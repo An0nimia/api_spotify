@@ -1,15 +1,16 @@
-[tool.poetry]
+[project]
 name = "api-spotify"
-version = "0.0.1b06"
+version = "0.0.1b07"
 description = "Wrapper for spotify APIs"
-authors = ["An0nimia <an0nimia@protonmail.com>"]
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.12"
-pydantic = "^2.7.4"
-requests = "^2.32.3"
-
+requires-python = ">=3.12"
+authors = [
+	{ name = "An0nimia", email = "an0nimia@protonmail.com" },
+]
+dependencies = [
+	"pydantic (>=2.11.7,<3.0.0)",
+	"requests (>=2.32.4,<3.0.0)",
+]
 
 [build-system]
 requires = ["poetry-core"]
